@@ -20,9 +20,9 @@ class AuthController extends Controller
             $token = $user->createToken('ll_rides_api')->accessToken;
 
             return response()->json([
-                'status' => 'success',
-                'accessToken' => $token,
-                'user' => $user
+                'status'        => 'success',
+                'accessToken'   => $token,
+                'user'          => $user
             ], 200);
         }
 
@@ -36,19 +36,28 @@ class AuthController extends Controller
     {
         $user = new User;
 
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = Hash::make($request->input('password'));
+        $user->name         = $request->input('name');
+        $user->email        = $request->input('email');
+        $user->password     = Hash::make($request->input('password'));
 
         if ($user->save()) {
             return response()->json([
-                'status' => 'success',
-                'data' => $user
+                'status'    => 'success',
+                'data'      => $user
             ], 200);
         }
 
         return response()->json([
             'status' => 'fail'
         ]);
+    }
+
+    public function me(Request $request)
+    {
+        $user = Auth::user();
+
+        return response()->json([
+            'user' => $user
+        ], 200);
     }
 }

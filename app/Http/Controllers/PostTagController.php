@@ -26,8 +26,8 @@ class PostTagController extends Controller
     {
     	$postTag = new PostTag;
 
-    	$postTag->post_id = $request->input('post_id');
-    	$postTag->name = $request->input('name');
+    	$postTag->post_id  = $request->input('post_id');
+    	$postTag->name     = $request->input('name');
 
     	$postTag->save();
 

@@ -4,53 +4,99 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\UserPostResource;
+use App\Http\Requests\UserPostStoreRequest;
+use App\Http\Requests\UserPostUpdateRequest;
 use App\UserPost;
 
 class UserPostController extends Controller
 {
     public function index(Request $request)
     {
-    	$userPosts = UserPost::paginate(10);
+        $user = Auth::user();
 
-    	return UserPostResource::collection($userPosts);
+
+        $userPosts = UserPost::where('user_id', $user->id)
+                                ->paginate(10);
+
+        return UserPostResource::collection($userPosts);
     }
 
-    public function show(Request $request, $id)
+    public function show($id)
     {
-    	$userPost = UserPost::findOrFail($id);
+        $user = Auth::user();
 
-    	return new UserPostResource($userPost);
+
+        $userPost = UserPost::where('id', $id)
+                                ->where('user_id', $user->id)
+                                ->first();
+
+        return new UserPostResource($userPost);
     }
 
-    public function store(Request $request)
+    public function store(UserPostStoreRequest $request)
     {
-    	$userPost = new UserPost;
+        $user = Auth::user();
 
-    	$userPost->user_id = $request->input('user_id');
-    	$userPost->title = $request->input('title');
-    	$userPost->description = $request->input('description');
 
-    	$userPost->save();
+        $title = $request->input('title');
+        $description = $request->input('description');
 
-    	return new UserPostResource($userPost);
+
+        $userPost = new UserPost;
+
+        $userPost->user_id      = $user->id;
+        $userPost->title        = $title;
+        $userPost->description  = $description;
+
+        $userPost->save();
+
+        return new UserPostResource($userPost);
     }
 
-    public function update(Request $request, $id)
+    public function update(UserPostUpdateRequest $request, $id)
     {
-    	$userPost = UserPost::findOrFail($id);
+        $user = Auth::user();
 
-    	$userPost->title = $request->input('title');
-    	$userPost->description = $request->input('description');
 
-    	$userPost->save();
+        $title          = $request->input('title');
+        $description    = $request->input('description');
 
-    	return new UserPostResource($userPost);
+
+        $userPost = UserPost::where('id', $id)
+                                ->where('user_id', $user->id)
+                                ->first();
+
+        if ($userPost) {
+            $userPost->title        = $title;
+            $userPost->description  = $description;
+
+            $userPost->save();
+
+            return new UserPostResource($userPost);
+        }
+
+        return response()->json([
+            'status'    => 'fail',
+            'error'     => 'Post not found for user'
+        ], 500);
     }
 
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-    	$userPost = UserPost::where('id', $id)->delete();
+        $user = Auth::user();
 
-    	return new UserPostResource($userPost);
+
+        $userPost = UserPost::where('id', $id)
+                                ->where('user_id', $user->id)
+                                ->delete();
+
+        if ($userPost) {
+            return new UserPostResource($userPost);
+        }
+
+        return response()->json([
+            'status'    => 'fail',
+            'error'     => 'Post not found for user'
+        ], 500);
     }
 }
