@@ -7,90 +7,156 @@ use App\Http\Resources\UserPostResource;
 use App\Http\Requests\UserPostStoreRequest;
 use App\Http\Requests\UserPostUpdateRequest;
 use App\UserPost;
+use Auth;
 
 class UserPostController extends Controller
 {
-    public function index(Request $request)
+    public function getUserPosts()
     {
-        $userPosts = UserPost::with([
-                                    'user',
-                                    'tags',
-                                    'images'
-                                ])
-                                ->paginate(10);
+        try {
+            $user = Auth::user();
 
-        return UserPostResource::collection($userPosts);
+
+            $userPosts = UserPost::with([
+                                        'user',
+                                        'tags',
+                                        'images'
+                                    ])
+                                    ->where('user_id', $user->id)
+                                    ->get();
+
+            return response()->json([
+                'status'    => 'success',
+                'data'      => UserPostResource::collection($userPosts)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'    => 'fail',
+                'error'     => $e->getMessage()
+            ]);
+        }
     }
 
-    public function show($id)
+    public function getUserPost()
     {
-        $userPost = UserPost::findOrFail($id);
+        try {
+            $user = Auth::user();
 
-        return new UserPostResource($userPost);
+
+            $userPost = UserPost::with([
+                                        'user',
+                                        'tags',
+                                        'images'
+                                    ])
+                                    ->where('user_id', $user->id)
+                                    ->first();
+
+            return response()->json([
+                'status'    => 'success',
+                'data'      => new UserPostResource($userPost)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'    => 'fail',
+                'error'     => $e->getMessage()
+            ]);
+        }
     }
 
-    public function store(UserPostStoreRequest $request)
+    public function storeUserPost(UserPostStoreRequest $request)
     {
-        $userId = $request->input('user_id');
-        $title = $request->input('title');
-        $description = $request->input('description');
+        try {
+            $user = Auth::user();
 
 
-        $userPost = new UserPost;
-
-        $userPost->user_id      = $userId;
-        $userPost->title        = $title;
-        $userPost->description  = $description;
-
-        $userPost->save();
-
-        return new UserPostResource($userPost);
-    }
-
-    public function update(UserPostUpdateRequest $request, $id)
-    {
-        $user = Auth::user();
+            $title = $request->input('title');
+            $description = $request->input('description');
 
 
-        $title          = $request->input('title');
-        $description    = $request->input('description');
+            $userPost = new UserPost;
 
-
-        $userPost = UserPost::where('id', $id)
-                                ->where('user_id', $user->id)
-                                ->first();
-
-        if ($userPost) {
+            $userPost->user_id      = $userId;
             $userPost->title        = $title;
             $userPost->description  = $description;
 
             $userPost->save();
 
-            return new UserPostResource($userPost);
+            return response()->json([
+                'status'    => 'success',
+                'data'      => new UserPostResource($userPost)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'    => 'fail',
+                'error'     => $e->getMessage()
+            ]);
         }
-
-        return response()->json([
-            'status'    => 'fail',
-            'error'     => 'Post not found for user'
-        ], 500);
     }
 
-    public function destroy($id)
+    public function updateUserPost(UserPostUpdateRequest $request, $id)
     {
-        $user = Auth::user();
+        try {
+            $user = Auth::user();
 
 
-        $userPost = UserPost::where('id', $id)
-                                ->where('user_id', $user->id)
-                                ->delete();
+            $title          = $request->input('title');
+            $description    = $request->input('description');
 
-        if ($userPost) {
-            return new UserPostResource($userPost);
+
+            $userPost = UserPost::where('id', $id)
+                                    ->where('user_id', $user->id)
+                                    ->first();
+
+            if ($userPost) {
+                $userPost->title        = $title;
+                $userPost->description  = $description;
+
+                $userPost->save();
+
+                return response()->json([
+                    'status'    => 'success',
+                    'data'      => new UserPostResource($userPost)
+                ], 200);
+            }
+
+            return response()->json([
+                'status'    => 'fail',
+                'error'     => 'Post not found for user'
+            ], 500);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'    => 'fail',
+                'error'     => $e->getMessage()
+            ]);
         }
+    }
 
-        return response()->json([
-            'status'    => 'fail',
-            'error'     => 'Post not found for user'
-        ], 500);
+    public function destroyUserPost($id)
+    {
+        try {
+            $user = Auth::user();
+
+
+            $userPost = UserPost::where('id', $id)
+                                    ->where('user_id', $user->id)
+                                    ->delete();
+
+            if ($userPost) {
+                return response()->json([
+                    'status'    => 'success',
+                    'data'      => new UserPostResource($userPost)
+                ], 200);
+            }
+
+            return response()->json([
+                'status'    => 'fail',
+                'error'     => 'Post not found for user'
+            ], 500);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'    => 'fail',
+                'error'     => $e->getMessage()
+            ]);
+        }
     }
 }
