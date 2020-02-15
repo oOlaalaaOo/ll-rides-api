@@ -12,10 +12,11 @@ class UserPostController extends Controller
 {
     public function index(Request $request)
     {
-        $user = Auth::user();
-
-
-        $userPosts = UserPost::where('user_id', $user->id)
+        $userPosts = UserPost::with([
+                                    'user',
+                                    'tags',
+                                    'images'
+                                ])
                                 ->paginate(10);
 
         return UserPostResource::collection($userPosts);
@@ -23,28 +24,21 @@ class UserPostController extends Controller
 
     public function show($id)
     {
-        $user = Auth::user();
-
-
-        $userPost = UserPost::where('id', $id)
-                                ->where('user_id', $user->id)
-                                ->first();
+        $userPost = UserPost::findOrFail($id);
 
         return new UserPostResource($userPost);
     }
 
     public function store(UserPostStoreRequest $request)
     {
-        $user = Auth::user();
-
-
+        $userId = $request->input('user_id');
         $title = $request->input('title');
         $description = $request->input('description');
 
 
         $userPost = new UserPost;
 
-        $userPost->user_id      = $user->id;
+        $userPost->user_id      = $userId;
         $userPost->title        = $title;
         $userPost->description  = $description;
 

@@ -16,7 +16,7 @@ class UserImageResource extends ResourceCollection
     {
         return [
             'id'                => (int) $this->id,
-            'user'              => UserResource::collection($this->user),
+            'user'              => new UserResource($this->user),
             'title'             => $this->title,
             'description'       => $this->description,
             'file_name'         => $this->file_name,
