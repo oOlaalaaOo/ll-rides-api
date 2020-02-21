@@ -83,7 +83,7 @@ class UserPostController extends Controller
 
             return response()->json([
                 'status'    => 'success',
-                'data'      => new UserPostResource($userPost)
+                'data'      => $userPost
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -115,7 +115,7 @@ class UserPostController extends Controller
 
                 return response()->json([
                     'status'    => 'success',
-                    'data'      => new UserPostResource($userPost)
+                    'data'      => $userPost
                 ], 200);
             }
 
