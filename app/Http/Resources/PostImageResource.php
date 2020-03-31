@@ -17,7 +17,7 @@ class PostImageResource extends ResourceCollection
     {
         return [
             'id'                => (int) $this->id,
-            'post'              => UserPostResource::collection($this->post),
+            'post'              => new UserPostResource($this->post),
             'title'             => $this->title,
             'description'       => $this->description,
             'file_name'         => $this->file_name,

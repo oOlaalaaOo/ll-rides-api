@@ -26,12 +26,12 @@ class UserImageController extends Controller
     {
     	$userImage = new UserImage;
 
-    	$userImage->post_id = $request->input('post_id');
-    	$userImage->title = $request->input('title');
-    	$userImage->description = $request->input('description');
-    	$userImage->file_name = $request->input('file_name');
+    	$userImage->post_id        = $request->input('post_id');
+    	$userImage->title          = $request->input('title');
+    	$userImage->description    = $request->input('description');
+    	$userImage->file_name      = $request->input('file_name');
     	$userImage->file_extension = $request->input('file_extension');
-    	$userImage->file_size = $request->input('file_size');
+    	$userImage->file_size      = $request->input('file_size');
     	$userImage->file_dimension = $request->input('file_dimension');
 
     	$userImage->save();
@@ -43,11 +43,11 @@ class UserImageController extends Controller
     {
     	$userImage = UserImage::findOrFail($id);
 
-    	$userImage->title = $request->input('title');
-    	$userImage->description = $request->input('description');
-    	$userImage->file_name = $request->input('file_name');
+    	$userImage->title          = $request->input('title');
+    	$userImage->description    = $request->input('description');
+    	$userImage->file_name      = $request->input('file_name');
     	$userImage->file_extension = $request->input('file_extension');
-    	$userImage->file_size = $request->input('file_size');
+    	$userImage->file_size      = $request->input('file_size');
     	$userImage->file_dimension = $request->input('file_dimension');
 
     	$userImage->save();

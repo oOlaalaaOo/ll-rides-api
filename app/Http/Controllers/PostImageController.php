@@ -26,12 +26,12 @@ class PostImageController extends Controller
     {
     	$postImage = new PostImage;
 
-    	$postImage->post_id = $request->input('post_id');
-    	$postImage->title = $request->input('title');
-    	$postImage->description = $request->input('description');
-    	$postImage->file_name = $request->input('file_name');
+    	$postImage->post_id        = $request->input('post_id');
+    	$postImage->title          = $request->input('title');
+    	$postImage->description    = $request->input('description');
+    	$postImage->file_name      = $request->input('file_name');
     	$postImage->file_extension = $request->input('file_extension');
-    	$postImage->file_size = $request->input('file_size');
+    	$postImage->file_size      = $request->input('file_size');
     	$postImage->file_dimension = $request->input('file_dimension');
 
     	$postImage->save();
@@ -43,11 +43,11 @@ class PostImageController extends Controller
     {
     	$postImage = PostImage::findOrFail($id);
 
-    	$postImage->title = $request->input('title');
-    	$postImage->description = $request->input('description');
-    	$postImage->file_name = $request->input('file_name');
+    	$postImage->title          = $request->input('title');
+    	$postImage->description    = $request->input('description');
+    	$postImage->file_name      = $request->input('file_name');
     	$postImage->file_extension = $request->input('file_extension');
-    	$postImage->file_size = $request->input('file_size');
+    	$postImage->file_size      = $request->input('file_size');
     	$postImage->file_dimension = $request->input('file_dimension');
 
     	$postImage->save();

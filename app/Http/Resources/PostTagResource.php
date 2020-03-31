@@ -17,7 +17,7 @@ class PostTagResource extends ResourceCollection
     {
         return [
             'id'            => (int) $this->id,
-            'post'          => UserPostResource::collection($this->post),
+            'post'          => new UserPostResource($this->post),
             'name'          => $this->name,
             'created_at'    => $this->created_at,
             'updated_at'    => $this->updated_at
