@@ -28,7 +28,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => 'fail',
-            'error' => 'Wrong credentials.'
+            'error' => 'The email address and password did not matched.'
         ], 403);
     }
 
@@ -48,8 +48,9 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'status' => 'fail'
-        ]);
+            'status' => 'fail',
+            'error' => 'Something went wrong'
+        ], 500);
     }
 
     public function me(Request $request)
