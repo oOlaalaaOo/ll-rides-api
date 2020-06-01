@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserPost extends Model
+class Post extends Model
 {
-    protected $table = 'user_posts';
+    protected $table = 'posts';
 
     protected $fillable = [
         'user_id', 'title', 'description',

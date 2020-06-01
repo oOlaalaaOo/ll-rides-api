@@ -3,24 +3,27 @@
 use Illuminate\Http\Request;
 
 /**
- * Members API
+ * Vendor API
  */
 
-Route::middleware('auth:api')->prefix('user')->group(function () {
+Route::group([
+	'prefix' => 'vendor',
+	'middleware' => 'auth:sanctum'
+], function () {
 	Route::get('/', 'AuthController@me');
 
-	Route::get('/post', 'UserPostController@getUserPosts');
-	Route::get('/post/{id}', 'UserPostController@getUserPost');
-	Route::post('/post', 'UserPostController@storeUserPost');
-	Route::put('/post/{id}', 'UserPostController@updateUserPost');
-	Route::delete('/post/{id}', 'UserPostController@destroyUserPost');
+	Route::get('post/all', 'UserPostController@getUserPosts');
+	Route::get('post/{id}/get', 'UserPostController@getUserPost');
+	Route::post('post/create', 'UserPostController@createUserPost');
+	Route::put('post/{id}/update', 'UserPostController@updateUserPost');
+	Route::delete('post/{id}/delete', 'UserPostController@deleteUserPost');
 });
 
-Route::prefix('auth')->group(function () {
+Route::group(['prefix' => 'auth'], function () {
 	Route::post('/register', 'AuthController@register');
 	Route::post('/login', 'AuthController@login');
 });
 
 /**
- * Members API
+ * Vendor API
  */

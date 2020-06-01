@@ -8,57 +8,65 @@ use Hash;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\LoginRequest;
 use Auth;
+use App\Services\HttpResponseHandlerService;
 
 class AuthController extends Controller
 {
+    private $httpResponseHandlerService;
+
+    public function __construct()
+    {
+        $this->httpResponseHandlerService = new HttpResponseHandlerService;
+    }
+
     public function login(LoginRequest $request)
     {
-        $credentials = $request->only(['email', 'password']);
+        try {
+            $credentials = $request->only(['email', 'password']);
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            $token = $user->createToken('ll_rides_api')->accessToken;
+            if (Auth::attempt($credentials)) {
+                $user = Auth::user();
+                $token = $user->createToken('ll_rides_api')->accessToken;
 
-            return response()->json([
-                'status'        => 'success',
-                'accessToken'   => $token,
-                'user'          => $user
-            ], 200);
+                return $this->httpResponseHandlerService->handleSuccess([
+                    'accessToken'   => $token,
+                    'user'          => $user
+                ]);
+            }
+
+            return $this->httpResponseHandlerService->handleError('The email address and password did not matched.', 403);
+        } catch (\Exception $e) {
+            return $this->httpResponseHandlerService->handleError($e->getMessage());
         }
-
-        return response()->json([
-            'status' => 'fail',
-            'error' => 'The email address and password did not matched.'
-        ], 403);
     }
 
     public function register(UserRequest $request)
     {
-        $user = new User;
+        try {
+            $user = new User;
 
-        $user->name         = $request->input('name');
-        $user->email        = $request->input('email');
-        $user->password     = Hash::make($request->input('password'));
+            $user->name         = $request->input('name');
+            $user->email        = $request->input('email');
+            $user->password     = Hash::make($request->input('password'));
 
-        if ($user->save()) {
-            return response()->json([
-                'status'    => 'success',
-                'data'      => $user
-            ], 200);
+            $user->save();
+
+            return $this->httpResponseHandlerService->handleSuccess([
+                'user' => $user
+            ]);
+        } catch (\Exception $e) {
+            return $this->httpResponseHandlerService->handleError($e->getMessage());
         }
-
-        return response()->json([
-            'status' => 'fail',
-            'error' => 'Something went wrong'
-        ], 500);
     }
 
     public function me(Request $request)
     {
-        $user = Auth::user();
-
-        return response()->json([
-            'user' => $user
-        ], 200);
+        try {
+            return $this->httpResponseHandlerService->handleSuccess([
+                'user' => Auth::user()
+            ]);
+        } catch (\Exception $e) {
+            return $this->httpResponseHandlerService->handleError($e->getMessage());
+        }
     }
 }

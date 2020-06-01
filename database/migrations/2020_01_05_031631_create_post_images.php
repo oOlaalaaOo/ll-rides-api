@@ -16,10 +16,8 @@ class CreatePostImages extends Migration
         Schema::create('post_images', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('post_id');
-            $table->string('title')->nullable();
-            $table->string('description')->nullable();
             $table->string('file_name');
-            $table->string('file_extension');
+            $table->string('file_mime');
             $table->string('file_size')->nullable();
             $table->string('file_dimension')->nullable();
             $table->timestamps();

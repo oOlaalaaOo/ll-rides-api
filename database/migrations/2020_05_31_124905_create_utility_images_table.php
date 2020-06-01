@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePostTags extends Migration
+class CreateUtilityImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreatePostTags extends Migration
      */
     public function up()
     {
-        Schema::create('post_tags', function (Blueprint $table) {
+        Schema::create('utility_images', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('post_id');
-            $table->string('name', 50);
+            $table->integer('service_id');
+            $table->string('file_name');
+            $table->string('file_mime');
+            $table->string('file_size')->nullable();
+            $table->string('file_dimension')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ class CreatePostTags extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post_tags');
+        Schema::dropIfExists('utility_images');
     }
 }

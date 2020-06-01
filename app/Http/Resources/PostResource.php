@@ -7,7 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\PostTagResource;
 use App\Http\Resources\PostImageResource;
 
-class UserPostResource extends ResourceCollection
+class PostResource extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

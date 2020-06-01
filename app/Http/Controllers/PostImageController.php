@@ -8,57 +8,84 @@ use App\PostImage;
 
 class PostImageController extends Controller
 {
-    public function index(Request $request)
-    {
-    	$postImages = PostImage::paginate(10);
+	private $httpResponseHandlerService;
 
-    	return PostImageResource::collection($postImages);
+    public function __construct()
+    {
+        $this->httpResponseHandlerService = new HttpResponseHandlerService;
     }
 
-    public function show(Request $request, $id)
+    public function getPostImages(Request $request, $postId)
     {
-    	$postImage = PostImage::findOrFail($id);
+        try {
+			$postImages = PostImage::where('post_id', $postId)->paginate(10);
 
-    	return new PostImageResource($postImage);
+			return $this->httpResponseHandlerService->handleSuccess(PostImageResource::collection($postImages));
+		} catch (\Exception $e) {
+			return $this->httpResponseHandlerService->handleError($e->getMessage());
+		}
     }
 
-    public function store(Request $request)
+    public function getPostImage(Request $request, $postId, $postImageId)
     {
-    	$postImage = new PostImage;
+        try {
+			$postImage = PostImage::where('id', $postImageId)->where('post_id', $postId);
 
-    	$postImage->post_id        = $request->input('post_id');
-    	$postImage->title          = $request->input('title');
-    	$postImage->description    = $request->input('description');
-    	$postImage->file_name      = $request->input('file_name');
-    	$postImage->file_extension = $request->input('file_extension');
-    	$postImage->file_size      = $request->input('file_size');
-    	$postImage->file_dimension = $request->input('file_dimension');
-
-    	$postImage->save();
-
-    	return new PostImageResource($postImage);
+			return $this->httpResponseHandlerService->handleSuccess(new PostImageResource($postImage));
+		} catch (\Exception $e) {
+			return $this->httpResponseHandlerService->handleError($e->getMessage()); 
+		}
     }
 
-    public function update(Request $request, $id)
+    public function createPostImage(Request $request)
     {
-    	$postImage = PostImage::findOrFail($id);
+        try {
+			$postImage = new PostImage;
 
-    	$postImage->title          = $request->input('title');
-    	$postImage->description    = $request->input('description');
-    	$postImage->file_name      = $request->input('file_name');
-    	$postImage->file_extension = $request->input('file_extension');
-    	$postImage->file_size      = $request->input('file_size');
-    	$postImage->file_dimension = $request->input('file_dimension');
+			$postImage->post_id        = $request->input('post_id');
+			$postImage->title          = $request->input('title');
+			$postImage->description    = $request->input('description');
+			$postImage->file_name      = $request->input('file_name');
+			$postImage->file_extension = $request->input('file_extension');
+			$postImage->file_size      = $request->input('file_size');
+			$postImage->file_dimension = $request->input('file_dimension');
 
-    	$postImage->save();
+			$postImage->save();
 
-    	return new PostImageResource($postImage);
+			return $this->httpResponseHandlerService->handleSuccess(new PostImageResource($postImage));
+		} catch (\Exception $e) {
+			return $this->httpResponseHandlerService->handleError($e->getMessage()); 
+		}
     }
 
-    public function destroy(Request $request)
+    public function updatePostImage(Request $request, $id)
     {
-    	$postImage = PostImage::where('id', $id)->delete();
+        try {
+			$postImage = PostImage::findOrFail($id);
 
-    	return new PostImageResource($postImage);
+			$postImage->title          = $request->input('title');
+			$postImage->description    = $request->input('description');
+			$postImage->file_name      = $request->input('file_name');
+			$postImage->file_extension = $request->input('file_extension');
+			$postImage->file_size      = $request->input('file_size');
+			$postImage->file_dimension = $request->input('file_dimension');
+
+			$postImage->save();
+
+			return $this->httpResponseHandlerService->handleSuccess(new PostImageResource($postImage));
+		} catch (\Exception $e) {
+			return $this->httpResponseHandlerService->handleError($e->getMessage());
+		}
+    }
+
+    public function deletePostImage(Request $request)
+    {
+        try {
+			$postImage = PostImage::where('id', $id)->delete();
+
+			return $this->httpResponseHandlerService->handleSuccess(new PostImageResource($postImage));
+		} catch (\Exception $e) {
+			return $this->httpResponseHandlerService->handleError($e->getMessage());
+		}
     }
 }

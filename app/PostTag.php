@@ -9,11 +9,11 @@ class PostTag extends Model
     protected $table = 'post_tags';
 
     protected $fillable = [
-        'post_id', 'name',
+        'post_id', 'name', 'description'
     ];
 
     public function post()
     {
-    	return $this->belongsTo('App\UserPost');
+    	return $this->belongsTo('App\Post');
     }
 }
