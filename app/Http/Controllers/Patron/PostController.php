@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Patron;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\UserPostResource;
-use App\Http\Requests\UserPostStoreRequest;
-use App\Http\Requests\UserPostUpdateRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Patron\UserPostResource;
+use App\Http\Requests\Patron\UserPostStoreRequest;
+use App\Http\Requests\Patron\UserPostUpdateRequest;
 use App\Post;
 use Auth;
 use App\Services\HttpResponseHandlerService;

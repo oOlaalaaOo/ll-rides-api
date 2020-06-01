@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Patron;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
-use App\Http\Resources\UserResource;
-use App\Http\Resources\PostTagResource;
-use App\Http\Resources\PostImageResource;
+use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Patron\UserResource;
+use App\Http\Resources\Patron\PostTagResource;
+use App\Http\Resources\Patron\PostImageResource;
 
-class PostResource extends ResourceCollection
+class PostResource extends JsonResource
 {
     /**
      * Transform the resource collection into an array.
@@ -24,8 +24,8 @@ class PostResource extends ResourceCollection
             'images'        => new PostImageResource($this->images),
             'title'         => $this->title,
             'description'   => $this->description,
-            'created_at'    => $this->created_at,
-            'updated_at'    => $this->updated_at
+            'createdAt'     => $this->created_at,
+            'updatedAt'     => $this->updated_at
         ];
     }
 }

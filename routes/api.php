@@ -5,25 +5,37 @@ use Illuminate\Http\Request;
 /**
  * Vendor API
  */
-
 Route::group([
-	'prefix' => 'vendor',
-	'middleware' => 'auth:sanctum'
+	'prefix' 			=> 'vendor',
+	'namespace' 	=> 'Vendor'
 ], function () {
-	Route::get('/', 'AuthController@me');
+	Route::post('register', 'AuthController@register');
+	Route::post('login', 'AuthController@login');
 
-	Route::get('post/all', 'UserPostController@getUserPosts');
-	Route::get('post/{id}/get', 'UserPostController@getUserPost');
-	Route::post('post/create', 'UserPostController@createUserPost');
-	Route::put('post/{id}/update', 'UserPostController@updateUserPost');
-	Route::delete('post/{id}/delete', 'UserPostController@deleteUserPost');
+	Route::group(['middleware' 	=> ['auth:api', 'scopes:role-vendor']], function() {
+		Route::get('me', 'AuthController@me');
+		Route::get('shop/all', 'ShopController@getShops');
+		Route::get('shop/one', 'ShopController@getShop');
+		Route::post('shop/create', 'ShopController@createShop');
+		Route::post('shop/update', 'ShopController@updateShop');
+		Route::post('shop/delete', 'ShopController@deleteShop');
+	});
 });
 
-Route::group(['prefix' => 'auth'], function () {
-	Route::post('/register', 'AuthController@register');
-	Route::post('/login', 'AuthController@login');
-});
 
 /**
- * Vendor API
+ * Patron API
  */
+Route::group([
+	'prefix' 			=> 'patron',
+	'middleware' 	=> ['auth:api', 'scopes:role-patron'],
+	'namespace' 	=> 'Patron'
+], function () {
+	Route::get('me', 'AuthController@me');
+
+	Route::get('post/all', 'PostController@getPosts');
+	Route::get('post/one', 'PostController@getPost');
+	Route::post('post/create', 'PostController@createPost');
+	Route::post('post/update', 'PostController@updatePost');
+	Route::post('post/delete', 'PostController@deletePost');
+});

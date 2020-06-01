@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Patron;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\PostImageResource;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Patron\PostImageResource;
 use App\PostImage;
 
 class PostImageController extends Controller

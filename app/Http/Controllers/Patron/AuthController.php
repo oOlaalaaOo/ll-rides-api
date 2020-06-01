@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Patron;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\User;
 use Hash;
-use App\Http\Requests\UserRequest;
-use App\Http\Requests\LoginRequest;
+use App\Http\Requests\Patron\UserRequest;
+use App\Http\Requests\Patron\LoginRequest;
 use Auth;
 use App\Services\HttpResponseHandlerService;
 

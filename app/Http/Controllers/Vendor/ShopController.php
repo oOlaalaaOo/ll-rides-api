@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Vendor;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\PostResource;
-use App\Http\Requests\PostStoreRequest;
-use App\Http\Requests\PostUpdateRequest;
-use App\UserPost;
+use App\Http\Controllers\Controller;
+use App\Post;
 use Auth;
 use App\Services\HttpResponseHandlerService;
-use App\Services\ShopService;
+use App\Services\Vendor\ShopService;
 
 class ShopController extends Controller
 {
@@ -37,13 +35,13 @@ class ShopController extends Controller
         }
     }
 
-    public function getShop(Request $request, $shopId, ShopService $shopService)
+    public function getShop(Request $request, ShopService $shopService)
     {
         try {
             $user = Auth::user();
 
             $params = [
-                'shopId' => $shopId
+                'shopId' => $request->input('shop_id')
             ];
 
             $shop = $shopService->shop($params);
