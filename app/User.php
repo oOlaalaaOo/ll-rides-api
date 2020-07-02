@@ -5,11 +5,11 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -40,11 +40,21 @@ class User extends Authenticatable
 
     public function posts()
     {
-        return $this->hasMany('App\Post');
+        return $this->hasMany('Modules\PostModule\Models\Post');
+    }
+
+    public function shops()
+    {
+        return $this->hasMany('Modules\ShopModule\Models\Shop');
     }
 
     public function images()
     {
-        return $this->hasMany('App\UserImage');
+        return $this->hasMany('Modules\UserModule\Models\UserImage');
+    }
+
+    public function details()
+    {
+        return $this->hasOne('Modules\UserModule\Models\UserDetail');
     }
 }

@@ -1,0 +1,26 @@
+{
+    "name": "laalaa/jwt-auth",
+    "description": "a jwt-auth package",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Benjamin Española",
+            "email": "espanolabenjamin@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "LaaLaa\\JwtAuth\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaaLaa\\JwtAuth\\JwtAuthServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "firebase/php-jwt": "^5.2"
+    }
+}

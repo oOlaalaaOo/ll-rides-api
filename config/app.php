@@ -174,7 +174,11 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        LaaLaa\CrudGenerator\CrudGeneratorServiceProvider::class,
+        LaaLaa\Websocket\WebsocketServiceProvider::class,
+        Modules\ShopModule\ShopModuleServiceProvider::class,
+        Modules\AuthModule\AuthModuleServiceProvider::class,
+        Modules\UserModule\UserModuleServiceProvider::class,
     ],
 
     /*

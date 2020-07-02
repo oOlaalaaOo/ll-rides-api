@@ -20,6 +20,7 @@ class CreateUserImages extends Migration
             $table->string('file_mime');
             $table->string('file_size')->nullable();
             $table->string('file_dimension')->nullable();
+            $table->string('type')->nullable();
             $table->timestamps();
         });
     }
