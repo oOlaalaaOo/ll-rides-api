@@ -29,5 +29,11 @@ class AuthServiceProvider extends ServiceProvider
         Passport::routes();
 
         Passport::tokensExpireIn(now()->addDays(1));
+
+        Passport::tokensCan([
+            'is-vendor' => 'Is Vendor',
+            'is-patron' => 'Is Patron',
+            'is-admin'  => 'Is Admin',
+        ]);
     }
 }

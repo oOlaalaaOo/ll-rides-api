@@ -1,0 +1,23 @@
+{
+    "name": "laalaa/crudgenerator",
+    "description": "a crud generator package",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Benjamin Española",
+            "email": "espanolabenjamin@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "LaaLaa\\Websocket\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaaLaa\\Websocket\\WebsocketServiceProvider"
+            ]
+        }
+    }
+}

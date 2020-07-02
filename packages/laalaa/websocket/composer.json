@@ -1,0 +1,20 @@
+{
+    "name": "laalaa/websocket",
+    "description": "a websocket package",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Benjamin Española",
+            "email": "espanolabenjamin@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "LaaLaa\\Websocket\\": "src/"
+        }
+    },
+    "require": {
+        "cboden/ratchet": "^0.4.2",
+        "react/zmq": "^0.4.0"
+    }
+}

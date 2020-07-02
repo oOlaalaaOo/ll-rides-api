@@ -40,11 +40,21 @@ class User extends Authenticatable
 
     public function posts()
     {
-        return $this->hasMany('App\Post');
+        return $this->hasMany('Modules\PostModule\Models\Post');
+    }
+
+    public function shops()
+    {
+        return $this->hasMany('Modules\ShopModule\Models\Shop');
     }
 
     public function images()
     {
-        return $this->hasMany('App\UserImage');
+        return $this->hasMany('Modules\UserModule\Models\UserImage');
+    }
+
+    public function details()
+    {
+        return $this->hasOne('Modules\UserModule\Models\UserDetail');
     }
 }

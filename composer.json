@@ -34,7 +34,12 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "LaaLaa\\CrudGenerator\\": "packages/laalaa/crud-generator/src/",
+            "LaaLaa\\Websocket\\": "packages/laalaa/websocket/src/",
+            "Modules\\ShopModule\\": "packages/modules/shop-module/src/",
+            "Modules\\AuthModule\\": "packages/modules/auth-module/src/",
+            "Modules\\UserModule\\": "packages/modules/user-module/src/"
         },
         "classmap": [
             "database/seeds",
